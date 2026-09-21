@@ -7,8 +7,8 @@ import { TypeSafeClient } from "@typesafe-ai/sdk";
 export async function POST(req: Request) {
   if (!process.env.TYPESAFE_API_KEY) {
     return Response.json(
-      { error: "TYPESAFE_API_KEY is not set in environment variables." },
-      { status: 503 },
+      { error: "TYPESAFE_API_KEY is not set in environment." },
+      { status: 500 },
     );
   }
 
@@ -17,15 +17,10 @@ export async function POST(req: Request) {
     const client = new TypeSafeClient();
     const result = await client.systemOne({ state, questions });
     return Response.json(result);
-  } catch (error) {
-    const status =
-      typeof error === "object" && error !== null && "status" in error
-        ? Number((error as { status: unknown }).status) || 500
-        : 500;
-    const message =
-      error instanceof Error
-        ? error.message
-        : "Request to Typesafe API failed.";
-    return Response.json({ error: message }, { status });
+  } catch {
+    return Response.json(
+      { error: "Request to Typesafe API failed." },
+      { status: 500 },
+    );
   }
 }
