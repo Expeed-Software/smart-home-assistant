@@ -3,7 +3,7 @@ import { applyAnswers } from "./apply-answers";
 import { buildDecisions } from "./build-decisions";
 import { buildQuestions, optionsOf } from "./build-questions";
 import { MAX_COMMAND_LENGTH } from "@/lib/constants";
-import type { TActionError, TActionRequest, TActionResponse } from "@/lib/types";
+import type { TCommandError, TCommandRequest, TCommandResponse } from "@/lib/types";
 
 const client = new TypeSafeClient({
   // Five questions in one call; the 10s default is tight.
@@ -13,12 +13,12 @@ const client = new TypeSafeClient({
 });
 
 function errorResponse(message: string, status: number) {
-  return Response.json({ message } satisfies TActionError, { status });
+  return Response.json({ message } satisfies TCommandError, { status });
 }
 
 /** The request body, or null when it is not a command and a home. */
-async function readRequest(req: Request): Promise<TActionRequest | null> {
-  let body: Partial<TActionRequest>;
+async function readRequest(req: Request): Promise<TCommandRequest | null> {
+  let body: Partial<TCommandRequest>;
   try {
     body = await req.json();
   } catch {
@@ -59,7 +59,7 @@ export async function POST(req: Request) {
       tokens: result.usage.input_tokens,
       decisions: buildDecisions(questions, result.answers, options),
       actions: applyAnswers(result.answers, home),
-    } satisfies TActionResponse);
+    } satisfies TCommandResponse);
   } catch (error) {
     // The details stay in the server log; the browser only needs to know it failed.
     console.error(error);

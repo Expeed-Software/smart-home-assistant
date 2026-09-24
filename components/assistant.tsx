@@ -6,7 +6,7 @@ import { Command } from "@/components/command";
 import { Decisions } from "@/components/decisions";
 import { buttonVariants } from "@/components/ui/button";
 import { useHome } from "@/hooks/use-home";
-import type { TActionError, TActionRequest, TActionResponse } from "@/lib/types";
+import type { TCommandError, TCommandRequest, TCommandResponse } from "@/lib/types";
 
 /** Where the source code lives. */
 const REPO_URL = "https://github.com/Expeed-Software/smart-home-control";
@@ -18,7 +18,7 @@ const REPO_URL = "https://github.com/Expeed-Software/smart-home-control";
  */
 export function Assistant() {
   const { rooms, devices, changeDevices } = useHome();
-  const [response, setResponse] = useState<TActionResponse | null>(null);
+  const [response, setResponse] = useState<TCommandResponse | null>(null);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -30,17 +30,17 @@ export function Assistant() {
     setResponse(null);
 
     try {
-      const res = await fetch("/api/actions", {
+      const res = await fetch("/api/commands", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ command, home: { rooms, devices } } satisfies TActionRequest),
+        body: JSON.stringify({ command, home: { rooms, devices } } satisfies TCommandRequest),
       });
       const payload: unknown = await res.json();
       if (!res.ok) {
-        setError((payload as TActionError).message);
+        setError((payload as TCommandError).message);
         return;
       }
-      const next = payload as TActionResponse;
+      const next = payload as TCommandResponse;
       setResponse(next);
       changeDevices(next.actions);
     } catch {

@@ -47,8 +47,8 @@ export type THome = {
   devices: TDevice[];
 };
 
-/** What the browser sends to /api/actions. Questions are built on the server. */
-export type TActionRequest = {
+/** What the browser sends to /api/commands. Questions are built on the server. */
+export type TCommandRequest = {
   command: string;
   home: THome;
 };
@@ -68,8 +68,8 @@ export type TDecision = {
   choices: TChoice[];
 };
 
-/** What /api/actions returns: the decisions, and the devices they changed. */
-export type TActionResponse = {
+/** What /api/commands returns: the decisions, and the devices they changed. */
+export type TCommandResponse = {
   latencyMs: number;
   /** Input tokens. */
   tokens: number;
@@ -78,6 +78,6 @@ export type TActionResponse = {
   actions: TDevice[];
 };
 
-export type TActionError = {
+export type TCommandError = {
   message: string;
 };

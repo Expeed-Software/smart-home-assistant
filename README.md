@@ -36,7 +36,7 @@ flowchart LR
         home <--> assistant
     end
 
-    api["Next.js API<br/>/api/actions"]
+    api["Next.js API<br/>/api/commands"]
     jev[("TypeSafe Jev<br/>System One")]
 
     assistant -- "command + home" --> api

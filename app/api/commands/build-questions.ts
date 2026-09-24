@@ -66,7 +66,6 @@ function criteriaOf<K extends string>(options: Record<K, TOption>): Record<K, st
   ) as Record<K, string>;
 }
 
-
 /** The questions as the SDK takes them: each one's instructions and its options' criteria. */
 export function buildQuestions(options: TOptions) {
   return {
