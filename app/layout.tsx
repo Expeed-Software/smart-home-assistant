@@ -1,14 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/lib/utils";
 
-const inter = Inter({subsets:['latin'],variable:'--font-sans'});
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -16,15 +10,15 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "JevThings",
-  description: "Smart home control powered by Jev AI",
+  title: "SmartHome",
+  description: "Say what you want in natural language; System One decides what to do in the home.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable)}
+      className={`${inter.variable} ${geistMono.variable} h-full font-sans antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
