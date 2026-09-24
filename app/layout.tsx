@@ -10,7 +10,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SmartHome",
+  title: "Smart Home Assistant",
   description: "Say what you want in natural language; System One decides what to do in the home.",
 };
 

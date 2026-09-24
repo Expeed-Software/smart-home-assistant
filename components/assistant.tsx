@@ -55,7 +55,7 @@ export function Assistant() {
       <div className="grid gap-3 border-b border-border p-4">
         <div className="flex items-center gap-2">
           <House className="size-4" />
-          <h1 className="flex-1 truncate font-heading text-sm font-medium">SmartHome</h1>
+          <h1 className="flex-1 truncate font-heading text-sm font-medium">Smart Home Assistant</h1>
           <a
             href={REPO_URL}
             target="_blank"

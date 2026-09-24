@@ -20,21 +20,37 @@ import type { TDevice, TFanSpeed } from "@/lib/types";
  *
  * A device that is off has no tag and so no controls: there is no level worth
  * setting until it is on. A lock has nothing to set beyond the one click, so it
- * never has a tag. Its room and every change go through useHome.
+ * never has a tag. Its room and every change go through useHome, and a device the
+ * assistant just changed pulses for a few seconds.
  */
 export function DeviceMarker({ device }: { device: TDevice }) {
-  const { rooms, changeDevice } = useHome();
+  const { rooms, changeDevice, highlighted } = useHome();
+  const isHighlighted = highlighted.includes(device.id);
   const roomLabel = rooms.find((room) => room.id === device.roomId)?.label ?? "";
   const active = isActive(device);
   const toggle = primaryToggle(device);
   const unlocked = device.type === "lock" && !device.status.locked;
   const colors = DEVICE_TYPE_COLORS[device.type];
+  // The highlight takes the colour the marker shows: an unlocked lock is red, not its green.
+  const highlight = unlocked
+    ? { ring: "ring-destructive", pulse: "bg-destructive/40" }
+    : { ring: colors.ring, pulse: colors.pulse };
   const spin =
     device.type === "fan" && device.status.on ? FAN_SPIN[device.status.speed] : undefined;
   const reading = readingOf(device);
 
   return (
     <div className="relative">
+      {/* Behind the marker, which is positioned so it paints over the pulse. */}
+      {isHighlighted && (
+        <span
+          aria-hidden
+          className={cn(
+            "pointer-events-none absolute inset-0 size-9 animate-ping rounded-full",
+            highlight.pulse,
+          )}
+        />
+      )}
       <Tooltip>
         <TooltipTrigger
           render={
@@ -42,7 +58,10 @@ export function DeviceMarker({ device }: { device: TDevice }) {
               type="button"
               aria-label={`${roomLabel} ${device.label}: ${toggle.label}`}
               onClick={() => changeDevice(toggle.next)}
-              className="flex size-9 cursor-pointer rounded-full bg-background shadow-sm ring-2 ring-background transition-shadow outline-none focus-visible:ring-ring"
+              className={cn(
+                "relative flex size-9 cursor-pointer rounded-full bg-background shadow-sm ring-2 transition-shadow outline-none focus-visible:ring-ring",
+                isHighlighted ? highlight.ring : "ring-background",
+              )}
             />
           }
         >

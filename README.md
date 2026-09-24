@@ -1,4 +1,4 @@
-# SmartHome
+# Smart Home Assistant
 
 The demo home has rooms and devices; type what you want in natural language - "dim
 the bedroom lights a bit", "turn off all the lights", "it is too warm in the living
