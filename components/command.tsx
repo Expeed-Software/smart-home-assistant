@@ -12,9 +12,10 @@ import { MAX_COMMAND_LENGTH } from "@/lib/constants";
  * predictable and cost nothing. Each one is written against the home as it starts
  * out (DEVICES in lib/demo-home.ts) so that it visibly changes something.
  *
- * Kept to a handful, picked so that between them they still show the range: one
- * device, an indirect relative change, a kind of device across the whole home, a
- * whole room (with a device the command skips) and a lock.
+ * Picked so that between them they show the range: one device, indirect relative
+ * changes, a kind of device across the whole home, a kind of device in one room, a
+ * whole room (with a device the command skips), a step up, straight to the highest,
+ * and a lock, across every kind of device.
  */
 const SUGGESTED_ACTIONS: string[] = [
   // One device, switched on: the porch light starts off.
@@ -28,6 +29,14 @@ const SUGGESTED_ACTIONS: string[] = [
   "Turn off everything in the living room",
   // A lock: every door starts locked.
   "Unlock the garage door",
+  // Indirect, one kind in one room: nothing names the thermostat, set to 72.
+  "It's too warm in the living room",
+  // A step up: the bedroom fan starts on low.
+  "Turn the bedroom fan up",
+  // Straight to the highest: the living room light is on at 70%.
+  "Full brightness in the living room",
+  // Indirect open: nothing names the blind, and the bedroom's starts fully closed.
+  "Let some light into the bedroom",
 ];
 
 /** What to ask for: a box to type in, or one of the suggestions to pick. */
